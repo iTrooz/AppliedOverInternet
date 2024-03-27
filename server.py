@@ -40,6 +40,9 @@ def ae2_post():
     data = json.loads(data) # parse JSON
     # END HACK
 
+    # sort items
+    data = sorted(data, key=lambda x: int(x["value"]), reverse=True) # TODO: fix ComputerCraft code to say "amount" instead of "value"
+
     ITEMS = data
     return '', 200
 
