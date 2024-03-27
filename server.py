@@ -9,7 +9,8 @@ ITEMS = {"minecraft:dirt": 0, "minecraft:stone": 0}
 
 @app.route('/textures/<name>')
 def textures(name):
-    print(name)
+    name = name.removeprefix("minecraft:")
+    print(f"Looking for texture for '{name}'")
     for folder in ("item", "block"):
         folder = os.path.join("minecraft-assets/assets/minecraft/textures", folder)
         try_file = os.path.join(folder, name+".png")
