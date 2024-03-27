@@ -32,7 +32,7 @@
     <body>
         <div id="inventory">
             {% for item in items: %}
-                <div title="{{ item.get('displayName') }}" class="slot">
+                <div title="{{ item.get('displayName') }} &#013;{{ item.get('name') }}" class="slot">
                     <img src="{{ url_for('textures', name=item.get('name')) }}">
                 </div>
             {% endfor %}
