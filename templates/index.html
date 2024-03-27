@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #inventory {
+            width: min-content;
+            background-color: lightgray;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: auto auto auto auto auto auto auto auto auto;
+            padding: 10px;
+        }
+        .slot {
+            display: flex;
+            background-color: gray;
+            padding: 4px;
+            &:hover {
+                background-color: white;
+            }
+        }
+        .slot img {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+    <body>
+        <div id="inventory">
+            {% for _ in range(1000): %}
+                <div title="hello" class="slot">
+                    <img src="{{ url_for('textures', name='dirt') }}">
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>

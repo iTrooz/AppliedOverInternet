@@ -1,0 +1,1 @@
+git clone --single-branch -b 1.20.1 https://github.com/InventivetalentDev/minecraft-assets
