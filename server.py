@@ -1,4 +1,5 @@
 import os
+import json
 
 from flask import *
 
@@ -28,10 +29,19 @@ def index():
 def ae2_get():
     return ITEMS
 
+@app.route('/', methods=["POST"]) # temporary until I fix the ComputerCraft code
 @app.route('/ae2', methods=["POST"])
 def ae2_post():
     global ITEMS
-    ITEMS = request.json
+
+    # BEGIN HACK
+    # TODO fix content type in ComputerCraft code ?
+    data = request.form.to_dict() # transform to dict
+    data = next(iter(data)) # get first key
+    data = json.loads(data) # parse JSON
+    # END HACK
+
+    ITEMS = data
     return '', 200
 
 if __name__ == '__main__':
