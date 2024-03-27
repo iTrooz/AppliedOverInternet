@@ -27,7 +27,7 @@ def index():
 
 @app.route('/ae2', methods=["GET"])
 def ae2_get():
-    return ITEMS
+    return jsonify(ITEMS)
 
 @app.route('/', methods=["POST"]) # temporary until I fix the ComputerCraft code
 @app.route('/ae2', methods=["POST"])
