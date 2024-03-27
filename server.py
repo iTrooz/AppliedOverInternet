@@ -13,9 +13,7 @@ def textures(name):
     for folder in ("item", "block"):
         folder = os.path.join("minecraft-assets/assets/minecraft/textures", folder)
         try_file = os.path.join(folder, name+".png")
-        print(try_file)
         if os.path.isfile(try_file):
-            print("ok")
             return send_file(try_file)
     
     print(f"Could not find texture for '{name}'")
