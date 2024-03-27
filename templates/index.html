@@ -31,9 +31,9 @@
     </style>
     <body>
         <div id="inventory">
-            {% for _ in range(1000): %}
+            {% for item in items: %}
                 <div title="hello" class="slot">
-                    <img src="{{ url_for('textures', name='dirt') }}">
+                    <img src="{{ url_for('textures', name=item.get('name')) }}">
                 </div>
             {% endfor %}
         </div>

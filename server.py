@@ -21,7 +21,7 @@ def textures(name):
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.html", items=ITEMS)
 
 @app.route('/ae2', methods=["GET"])
 def ae2_get():
