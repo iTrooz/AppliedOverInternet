@@ -7,6 +7,14 @@ app = Flask(__name__)
 
 ITEMS = {"minecraft:dirt": 0, "minecraft:stone": 0}
 
+def toHuman(num):
+    # Inspiration: https://stackoverflow.com/a/1094933
+    for unit in ['','K','M','G','T','P','E','Z']:
+        if abs(num) < 1000.0:
+            return "%3.1f%s" % (num, unit)
+        num /= 1000.0
+    return "%.1f%s" % (num, 'Y')
+
 @app.route('/textures/<name>')
 def textures(name):
     name = name.removeprefix("minecraft:")
@@ -42,6 +50,10 @@ def ae2_post():
 
     # sort items
     data = sorted(data, key=lambda x: int(x["value"]), reverse=True) # TODO: fix ComputerCraft code to say "amount" instead of "value"
+
+    # set human amount
+    for item in data:
+        item["humanAmount"] = toHuman(int(item["value"]))
 
     ITEMS = data
     return '', 200

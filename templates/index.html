@@ -42,7 +42,7 @@
             {% for item in items: %}
                 <div title="{{ item.get('displayName') }} &#013;{{ item.get('name') }}" class="slot">
                     <img loading="lazy" src="{{ url_for('textures', name=item.get('name')) }}" width="50px" height="50px">
-                    <span>{{ item.get('value') }}</span>
+                    <span>{{ item.get('humanAmount') }}</span>
                 </div>
             {% endfor %}
         </div>
