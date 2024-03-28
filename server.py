@@ -42,7 +42,7 @@ def textures(name):
 
     
     print(f"Could not find texture for '{name}'")
-    return send_file("missing.png"), 404
+    return send_file("missing.png"), 202
 
 @app.route('/')
 def index():
