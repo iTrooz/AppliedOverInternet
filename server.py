@@ -5,6 +5,9 @@ from flask import *
 
 app = Flask(__name__)
 
+# https://stackoverflow.com/a/37331139
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60*60*24*30 # 30 days
+
 ITEMS = {"minecraft:dirt": 0, "minecraft:stone": 0}
 
 def toHuman(num):
