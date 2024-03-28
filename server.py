@@ -11,9 +11,9 @@ def toHuman(num):
     # Inspiration: https://stackoverflow.com/a/1094933
     for unit in ['','K','M','G','T','P','E','Z']:
         if abs(num) < 1000.0:
-            return "%3.1f%s" % (num, unit)
+            return ("%.2f" % num).rstrip('0').rstrip('.') + unit
         num /= 1000.0
-    return "%.1f%s" % (num, 'Y')
+    return ("%.2f" % num).rstrip('0').rstrip('.') + "Y"
 
 @app.route('/textures/<name>')
 def textures(name):
