@@ -43,13 +43,26 @@
         }
     </style>
     <body>
+    	<input id="search" oninput="filterItems()" />
         <div id="inventory">
             {% for item in items: %}
-                <div title="{{ item.get('displayName') }}&#013;{{ item.get('name') }}&#013;Amount: {{ item.get('value') }}" class="slot">
+                <div id="{{item.get('name')}}" title="{{ item.get('displayName') }}&#013;{{ item.get('name') }}&#013;Amount: {{ item.get('amount') }}" class="slot">
                     <img loading="lazy" src="{{ url_for('textures', name=item.get('name')) }}" width="50px" height="50px">
                     <span>{{ item.get('humanAmount') }}</span>
                 </div>
             {% endfor %}
         </div>
+        <script defer>
+          var inventory = document.getElementById("inventory");
+          function filterItems(){
+            let filter = document.getElementById("search").value;
+            for (const itemDiv of inventory.children) {
+              if (itemDiv.title.includes(filter))
+                itemDiv.style.display = "block";
+              else
+                itemDiv.style.display = "none";
+            }
+          }
+        </script>
     </body>
 </html>
