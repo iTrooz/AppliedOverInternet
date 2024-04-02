@@ -19,6 +19,24 @@ def toHuman(num):
         num /= 1000.0
     return ("%.2f" % num).rstrip('0').rstrip('.') + "Y"
 
+def process_ae2_json(data):
+    global ITEMS
+
+    # sort items
+    data = sorted(data, key=lambda x: int(x["amount"]), reverse=True)
+
+    # set human amount
+    for item in data:
+        item["humanAmount"] = toHuman(int(item["amount"]))
+
+    ITEMS = data
+
+
+if app.debug:
+    with open("example_data.json", "r") as file:
+        process_ae2_json(json.loads(file.read()))
+
+
 @app.route('/textures/<name>')
 def textures(name):
     namespace, name = name.split(":")
@@ -64,14 +82,8 @@ def ae2_post():
     data = json.loads(data) # parse JSON
     # END HACK
 
-    # sort items
-    data = sorted(data, key=lambda x: int(x["value"]), reverse=True) # TODO: fix ComputerCraft code to say "amount" instead of "value"
+    process_ae2_json(data)
 
-    # set human amount
-    for item in data:
-        item["humanAmount"] = toHuman(int(item["value"]))
-
-    ITEMS = data
     return '', 200
 
 if __name__ == '__main__':
