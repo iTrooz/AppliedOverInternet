@@ -6,15 +6,18 @@ while true do
   items = bridge.listItems()
   itemsSemiJson = {}
 
-  if items ~= nil then
-    for _, item in pairs(items) do
-      strippedItem = { name = item.name, amount = item.amount, displayName = item.displayName }
-      table.insert(itemsSemiJson, textutils.serialiseJSON(strippedItem)) -- for some reason I can't insert a table, I have to serialise it
+  for _, cat in pairs({ bridge.listItems(), bridge.listFluid(), bridge.listGas() }) do
+    if cat ~= nil then
+      for _, item in pairs(cat) do
+        strippedItem = { name = item.name, amount = item.amount, displayName = item.displayName }
+        table.insert(itemsSemiJson, textutils.serialiseJSON(strippedItem)) -- for some reason I can't insert a table, I have to serialise it
+      end
     end
-
-    itemsJsonStr = string.format("[%s]", table.concat(itemsSemiJson, ","))
-    http.post("http://localhost:5000", itemsJsonStr)
   end
+ 
+  itemsJsonStr = string.format("[%s]", table.concat(itemsSemiJson, ","))
+  http.post("http://localhost:5000", itemsJsonStr)
+
   print("Request made. Now sleeping")
   sleep(5)
-end 
+end
