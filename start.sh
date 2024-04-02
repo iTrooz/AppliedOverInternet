@@ -1,3 +1,3 @@
 export FLASK_APP=server.py
 export FLASK_ENV=development
-flask run -p 6000
+flask run -p 5000
