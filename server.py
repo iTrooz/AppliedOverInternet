@@ -42,10 +42,10 @@ def textures(fullname):
     namespace, name = fullname.split(":")
     texture_file = os.path.join("textures", namespace, name+".png")
     if os.path.isfile(texture_file):
-        return send_file(texture_file)
+        return send_file(texture_file, cache_timeout=0)
 
     print(f"Could not find texture for '{fullname}'")
-    return send_file("missing.png"), 202
+    return send_file("missing.png", cache_timeout=0), 202
 
 @app.route('/')
 def index():
