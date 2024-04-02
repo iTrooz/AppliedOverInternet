@@ -1,3 +1,4 @@
+# NOTE: this script is a legacy option. You should use the mod IconExporter to export textures. Refer to the README for more info.
 import os
 import zipfile
 import re
