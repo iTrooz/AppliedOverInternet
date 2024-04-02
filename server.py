@@ -40,7 +40,7 @@ if app.debug:
 @app.route('/textures/<fullname>')
 def textures(fullname):
     namespace, name = fullname.split(":")
-    texture_file = os.path.join("mods_textures", namespace, name+".png")
+    texture_file = os.path.join("textures", namespace, name+".png")
     if os.path.isfile(texture_file):
         return send_file(texture_file)
 

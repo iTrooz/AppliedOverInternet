@@ -22,4 +22,4 @@ for filename in os.listdir('mods_jars'):
         info.filename = info.filename.removeprefix(f"assets/{namespace}/textures/{category}/")
 
         # extract it
-        z.extract(info, path=os.path.join("mods_textures", filename.removesuffix(".jar"), namespace, category))
+        z.extract(info, path=os.path.join("textures", filename.removesuffix(".jar"), namespace, category))
