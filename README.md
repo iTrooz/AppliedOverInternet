@@ -25,7 +25,7 @@ The goal of this project is to be able to see the contents of an Applied Energis
 ### Setup the server
 - Modify the server CC:Tweaked configuration file to enable the HTTP API and restart your server
   - the config can be found at `{world}/serverconfig/computercraft-server.toml`, set `enabled` to `true` in the `http` section
-  - if you are going to run the python webserver on your local machine/network, you also need to remove the rule that disables access to private IPs later in the file. It is the one with `host = "$private"`. [Click here for more info](https://tweaked.cc/guide/local_ips.html#cc-1.87.0)`
+  - if you are going to run the python webserver on your local machine/network, you also need to remove the rule that disables access to private IPs later in the file. It is the one with `host = "$private"`. [Click here for more info](https://tweaked.cc/guide/local_ips.html#cc-1.87.0)
 - Run the `server.py` script (as a background program, with say `tmux` or `screen`) with `flask --app server.py run -p 5000` or something like that (or use a production WSGI if you know how. I don't.)
 - (Optional) if you have an already existing nginx server (and/or want to go through to enable SSL), [here's a virtual host template](nginx_template.conf). And then do your stuff with Certbot
 
