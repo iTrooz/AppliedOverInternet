@@ -40,25 +40,10 @@ if app.debug:
 @app.route('/textures/<fullname>')
 def textures(fullname):
     namespace, name = fullname.split(":")
-    if namespace == "minecraft":
-        for folder in ("item", "block"):
-            folder = os.path.join("minecraft-assets/assets/minecraft/textures", folder)
-            try_file = os.path.join(folder, name+".png")
-            if os.path.isfile(try_file):
-                return send_file(try_file)
-    else:
-        # Loop all mods
-        for mod in os.listdir("mods_textures"):
-            path = os.path.join("mods_textures", mod, namespace)
-            if not os.path.isdir(path): # Ensure good namespace
-                continue
-            
-            for filepath in Path(path).rglob("*.png"): # Loop recursively because sometimes mods have sub-folders
-                if os.path.basename(filepath) == name+".png": # check for good name
-                    return send_file(filepath, cache_timeout=0)
+    texture_file = os.path.join("mods_textures", namespace, name+".png")
+    if os.path.isfile(texture_file):
+        return send_file(texture_file)
 
-
-    
     print(f"Could not find texture for '{fullname}'")
     return send_file("missing.png"), 202
 
