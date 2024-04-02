@@ -37,9 +37,9 @@ if app.debug:
         process_ae2_json(json.loads(file.read()))
 
 
-@app.route('/textures/<name>')
-def textures(name):
-    namespace, name = name.split(":")
+@app.route('/textures/<fullname>')
+def textures(fullname):
+    namespace, name = fullname.split(":")
     if namespace == "minecraft":
         for folder in ("item", "block"):
             folder = os.path.join("minecraft-assets/assets/minecraft/textures", folder)
@@ -59,7 +59,7 @@ def textures(name):
 
 
     
-    print(f"Could not find texture for '{name}'")
+    print(f"Could not find texture for '{fullname}'")
     return send_file("missing.png"), 202
 
 @app.route('/')
