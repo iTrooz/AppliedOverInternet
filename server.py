@@ -37,7 +37,7 @@ def textures(name):
             
             for filepath in Path(path).rglob("*.png"): # Loop recursively because sometimes mods have sub-folders
                 if os.path.basename(filepath) == name+".png": # check for good name
-                    return send_file(filepath)
+                    return send_file(filepath, cache_timeout=0)
 
 
     
