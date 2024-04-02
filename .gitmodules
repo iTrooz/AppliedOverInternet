@@ -1,4 +1,0 @@
-[submodule "minecraft-assets"]
-	path = minecraft-assets
-	url = https://github.com/InventivetalentDev/minecraft-assets
-    branch = 1.20.1
