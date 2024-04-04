@@ -1,3 +1,5 @@
+from influxdb_client import Point, InfluxDBClient
+import traceback
 import os
 import json
 from pathlib import Path
@@ -19,6 +21,29 @@ def toHuman(num):
         num /= 1000.0
     return ("%.2f" % num).rstrip('0').rstrip('.') + "Y"
 
+def initDBClient():
+    from dotenv import load_dotenv
+    load_dotenv()
+
+    if not os.getenv("DB_HOST"):
+        raise Exception("DB_HOST not set in .env")
+    
+    db_client = InfluxDBClient(
+        url=os.getenv("DB_HOST"),
+        token=os.getenv("DB_TOKEN"),
+        org="test")
+    if not db_client.ping():
+        raise Exception("Connection failed for unknown reason")
+    return db_client
+
+def sendDBStats(db_client: InfluxDBClient, data):
+    write_api = db_client.write_api()
+
+    write_api.write("test", "test", [
+        Point("ae2_item").tag("name", item["name"]).field("amount", item["amount"])
+        for item in data])
+
+
 def process_ae2_json(data):
     global ITEMS
 
@@ -28,24 +53,34 @@ def process_ae2_json(data):
     # set human amount
     for item in data:
         item["humanAmount"] = toHuman(int(item["amount"]))
+    
+    if db_client:
+        sendDBStats(db_client, data)
 
     ITEMS = data
 
+db_client = None
+try:
+    db_client = initDBClient()
+    print("DB client connnected successfully")
+except Exception as e:
+    print(f"Failed to init DB client:")
+    print(traceback.format_exc())
+    print("data will not be sent to DB, you will not be able to use Grafana")
 
 if app.debug:
     with open("example_data.json", "r") as file:
         process_ae2_json(json.loads(file.read()))
-
 
 @app.route('/textures/<fullname>')
 def textures(fullname):
     namespace, name = fullname.split(":")
     texture_file = os.path.join("textures", namespace, name+".png")
     if os.path.isfile(texture_file):
-        return send_file(texture_file, cache_timeout=0)
+        return send_file(texture_file)
 
-    print(f"Could not find texture for '{fullname}'")
-    return send_file("missing.png", cache_timeout=0), 202
+    print(f"Could not find texture for '{fullname}' ({texture_file} not found)")
+    return send_file("missing.png"), 202
 
 @app.route('/')
 def index():
@@ -72,4 +107,5 @@ def ae2_post():
     return '', 200
 
 if __name__ == '__main__':
-    app.run()
+    print("Starting web server")
+    app.run(host='0.0.0.0')

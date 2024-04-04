@@ -1,0 +1,15 @@
+# https://grafana.com/docs/grafana/latest/datasources/influxdb/ seems to be wrong, their datasource format doesn't work
+# This format has been reverse-engineered with web developers tools and http://localhost:3000/connections/datasources
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB_v2
+    type: influxdb
+    user: admin # pretty sure I can put anything else
+    access: proxy
+    url: "http://influxdb:8086"
+    version: 12 # InfluxQL
+    jsonData:
+      dbName: test
+    secureJsonData:
+      password: '$DB_TOKEN' # pretty sure this is NOT the password but the token

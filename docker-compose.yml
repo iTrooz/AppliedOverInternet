@@ -1,0 +1,31 @@
+services:
+    influxdb:
+        env_file: ".env"
+        image: influxdb
+        ports:
+            - 8086:8086
+        environment:
+            - DOCKER_INFLUXDB_INIT_MODE=setup
+            - DOCKER_INFLUXDB_INIT_USERNAME=admin
+            - DOCKER_INFLUXDB_INIT_PASSWORD=${DB_TOKEN}
+            - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${DB_TOKEN}
+            - DOCKER_INFLUXDB_INIT_ORG=test
+            - DOCKER_INFLUXDB_INIT_BUCKET=test
+        volumes:
+            - influxdb_data:/var/lib/influxdb2
+
+    grafana:
+        env_file: ".env"
+        image: grafana/grafana
+        ports:
+            - 3000:3000
+        environment:
+            - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
+            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+        volumes:
+            - ./mounts/etc/grafana/:/etc/grafana
+            - grafana_data:/var/lib/grafana
+
+volumes:
+    influxdb_data:
+    grafana_data:

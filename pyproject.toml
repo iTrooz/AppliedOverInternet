@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "appliedoverinternet"
+version = "0.1.0"
+description = ""
+authors = ["iTrooz <hey@itrooz.fr>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^3.0.2"
+python-dotenv = "^1.0.1"
+influxdb-client = "^1.41.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
