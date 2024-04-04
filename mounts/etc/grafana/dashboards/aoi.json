@@ -25,7 +25,32 @@
         {
             "datasource": {
                 "type": "influxdb",
-                "uid": "PB112F3BB995F0ACE"
+                "uid": "P5697886F9CA74929"
+            },
+            "gridPos": {
+                "h": 16,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 4,
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"ae2_item\" and r._field == \"amount\" and r._value > 1000)\n  |> filter(fn: (r) => r.name != \"minecraft:water\") // too high lol\n  |> aggregateWindow(every: 1m, fn: last, createEmpty: false) // downsample\n  |> map(fn: (r) => ({_value:r._value, _time:r._time, _field:r.name})) // https://github.com/grafana/influxdb-flux-datasource/issues/42#issuecomment-532402207\n  |> yield()",
+                    "refId": "A"
+                }
+            ],
+            "title": "Quantities",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
             },
             "fieldConfig": {
                 "defaults": {
@@ -83,12 +108,12 @@
                 "overrides": []
             },
             "gridPos": {
-                "h": 20,
+                "h": 16,
                 "w": 24,
                 "x": 0,
-                "y": 0
+                "y": 16
             },
-            "id": 2,
+            "id": 3,
             "options": {
                 "legend": {
                     "calcs": [],
@@ -103,18 +128,17 @@
             },
             "targets": [
                 {
-                    "alias": "[[tag_name]]",
                     "datasource": {
                         "type": "influxdb",
-                        "uid": "PB112F3BB995F0ACE"
+                        "uid": "P5697886F9CA74929"
                     },
-                    "query": "SELECT \"amount\" FROM ae2_item GROUP BY \"name\"",
+                    "query": "from(bucket: \"test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"ae2_item\" and r._field == \"amount\")\n  |> aggregateWindow(every: 1m, fn: last, createEmpty: false) // downsample\n  |> derivative(unit: 1m) // get increase rate\n  |> filter(fn: (r) => r._value != 0) // avoid showing empty lines to the user\n  |> map(fn: (r) => ({_value:r._value, _time:r._time, _field:r.name})) // https://github.com/grafana/influxdb-flux-datasource/issues/42#issuecomment-532402207\n  |> yield()",
                     "rawQuery": true,
                     "refId": "A",
                     "resultFormat": "time_series"
                 }
             ],
-            "title": "Panel Title",
+            "title": "Increase rate",
             "type": "timeseries"
         }
     ],
@@ -132,6 +156,6 @@
     "timezone": "",
     "title": "AE2",
     "uid": "d65f787e-3cee-48cf-a9b7-0a13845328c8",
-    "version": 6,
+    "version": 15,
     "weekStart": ""
 }
