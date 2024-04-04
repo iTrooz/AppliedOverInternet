@@ -2,3 +2,4 @@ __pycache__
 mods_jars
 textures
 .env
+local/
