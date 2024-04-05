@@ -42,6 +42,12 @@ def sendDBStats(db_client: InfluxDBClient, data):
     write_api.write("test", "test", [
         Point("ae2_item").tag("name", item["name"]).field("amount", item["amount"])
         for item in data["items"]])
+    
+    usage_points = []
+    for usage_cat, usage_cat_data in data["usage"].items():
+        usage_points.append(Point("ae2_usage").tag("category", usage_cat).field("total", usage_cat_data["total"]).field("used", usage_cat_data["used"]))
+
+    write_api.write("test", "test", usage_points)
 
 
 def process_ae2_json(data):
