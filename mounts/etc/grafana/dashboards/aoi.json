@@ -30,6 +30,147 @@
             "fieldConfig": {
                 "defaults": {
                     "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {},
+                    "fieldMinMax": false,
+                    "mappings": [],
+                    "min": 0,
+                    "thresholds": {
+                        "mode": "percentage",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "orange",
+                                "value": 75
+                            },
+                            {
+                                "color": "red",
+                                "value": 90
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 0
+            },
+            "id": 5,
+            "options": {
+                "minVizHeight": 75,
+                "minVizWidth": 75,
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "/^used items$/",
+                    "values": false
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto"
+            },
+            "pluginVersion": "10.4.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ae2_usage\" and r[\"category\"] == \"items\")\n  |> yield()",
+                    "refId": "A"
+                }
+            ],
+            "title": "Used item storage",
+            "type": "gauge"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "fieldMinMax": false,
+                    "mappings": [],
+                    "min": 0,
+                    "thresholds": {
+                        "mode": "percentage",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "orange",
+                                "value": 75
+                            },
+                            {
+                                "color": "red",
+                                "value": 90
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 0
+            },
+            "id": 6,
+            "options": {
+                "minVizHeight": 75,
+                "minVizWidth": 75,
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "/^used fluid$/",
+                    "values": false
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto"
+            },
+            "pluginVersion": "10.4.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ae2_usage\" and r[\"category\"] == \"fluid\")\n  |> yield()",
+                    "refId": "A"
+                }
+            ],
+            "title": "Used fluid storage",
+            "type": "gauge"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
                         "mode": "palette-classic"
                     },
                     "custom": {
@@ -86,7 +227,7 @@
                 "h": 16,
                 "w": 24,
                 "x": 0,
-                "y": 0
+                "y": 8
             },
             "id": 4,
             "options": {
@@ -179,7 +320,7 @@
                 "h": 16,
                 "w": 24,
                 "x": 0,
-                "y": 16
+                "y": 24
             },
             "id": 3,
             "options": {
@@ -210,7 +351,6 @@
             "type": "timeseries"
         }
     ],
-    "refresh": "",
     "schemaVersion": 39,
     "tags": [],
     "templating": {
@@ -224,6 +364,6 @@
     "timezone": "",
     "title": "AE2",
     "uid": "d65f787e-3cee-48cf-a9b7-0a13845328c8",
-    "version": 15,
+    "version": 25,
     "weekStart": ""
 }
