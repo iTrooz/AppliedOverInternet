@@ -11,7 +11,7 @@ app = Flask(__name__)
 # https://stackoverflow.com/a/37331139
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60*60*24*30 # 30 days
 
-ITEMS = {"minecraft:dirt": 0, "minecraft:stone": 0}
+DATA = None
 
 def toHuman(num):
     # Inspiration: https://stackoverflow.com/a/1094933
@@ -41,23 +41,23 @@ def sendDBStats(db_client: InfluxDBClient, data):
 
     write_api.write("test", "test", [
         Point("ae2_item").tag("name", item["name"]).field("amount", item["amount"])
-        for item in data])
+        for item in data["items"]])
 
 
 def process_ae2_json(data):
-    global ITEMS
-
+    items = data["items"]
     # sort items
-    data = sorted(data, key=lambda x: int(x["amount"]), reverse=True)
-
+    items = sorted(items, key=lambda x: int(x["amount"]), reverse=True)
     # set human amount
-    for item in data:
+    for item in items:
         item["humanAmount"] = toHuman(int(item["amount"]))
+    data["items"] = items
     
     if db_client:
         sendDBStats(db_client, data)
 
-    ITEMS = data
+    global DATA
+    DATA = data
 
 db_client = None
 try:
@@ -84,16 +84,16 @@ def textures(fullname):
 
 @app.route('/')
 def index():
-    return render_template("index.html", items=ITEMS)
+    return render_template("index.html", items=DATA["items"])
 
 @app.route('/ae2', methods=["GET"])
 def ae2_get():
-    return jsonify(ITEMS)
+    return jsonify(DATA["items"])
 
 @app.route('/', methods=["POST"]) # temporary until I fix the ComputerCraft code
 @app.route('/ae2', methods=["POST"])
 def ae2_post():
-    global ITEMS
+    global DATA
 
     # BEGIN HACK
     # TODO fix content type in ComputerCraft code ?
