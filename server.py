@@ -102,17 +102,7 @@ def ae2_get():
 # Used by the CC:Tweaked script
 @app.route('/ae2', methods=["POST"])
 def ae2_post():
-    global DATA
-
-    # BEGIN HACK
-    # TODO fix content type in ComputerCraft code ?
-    data = request.form.to_dict() # transform to dict
-    data = next(iter(data)) # get first key
-    data = json.loads(data) # parse JSON
-    # END HACK
-
-    process_ae2_json(data)
-
+    process_ae2_json(request.json)
     return '', 200
 
 if __name__ == '__main__':
