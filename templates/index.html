@@ -43,7 +43,8 @@
         }
     </style>
     <body>
-    	<input id="search" oninput="filterItems()" />
+        <input id="search" oninput="filterItems()" />
+        <a href="/stats" target="_blank">Go to statistics view</a>
         <div id="inventory">
             {% for item in items: %}
                 <div id="{{item.get('name')}}" title="{{ item.get('displayName') }}&#013;{{ item.get('name') }}&#013;Amount: {{ item.get('amount') }}" class="slot">
