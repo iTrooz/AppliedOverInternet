@@ -28,7 +28,7 @@ while true do
 
   allData = { usage = usageData, items = itemsData }
 
-  http.post("http://localhost:5000", textutils.serialiseJSON(allData))
+  http.post("http://localhost:5000/ae2", textutils.serialiseJSON(allData))
  
   print("Request made. Now sleeping")
   sleep(5)

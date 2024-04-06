@@ -100,7 +100,6 @@ def ae2_get():
     return jsonify(DATA["items"])
 
 # Used by the CC:Tweaked script
-@app.route('/', methods=["POST"]) # temporary until I fix the ComputerCraft code
 @app.route('/ae2', methods=["POST"])
 def ae2_post():
     global DATA
