@@ -90,7 +90,8 @@ def textures(fullname):
 
 @app.route('/')
 def index():
-    return render_template("index.html", items=DATA["items"])
+    items = DATA["items"] if DATA else None
+    return render_template("index.html", items=items)
 
 @app.route('/ae2', methods=["GET"])
 def ae2_get():
