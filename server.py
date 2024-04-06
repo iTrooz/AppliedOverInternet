@@ -88,15 +88,18 @@ def textures(fullname):
     print(f"Could not find texture for '{fullname}' ({texture_file} not found)")
     return send_file("missing.png"), 202
 
+# UI accessed by users
 @app.route('/')
 def index():
     items = DATA["items"] if DATA else None
     return render_template("index.html", items=items)
 
+# For debugging purposes
 @app.route('/ae2', methods=["GET"])
 def ae2_get():
     return jsonify(DATA["items"])
 
+# Used by the CC:Tweaked script
 @app.route('/', methods=["POST"]) # temporary until I fix the ComputerCraft code
 @app.route('/ae2', methods=["POST"])
 def ae2_post():
