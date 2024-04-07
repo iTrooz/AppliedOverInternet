@@ -1,6 +1,7 @@
 # Applied Over Internet
 
 ![](images/website.png)
+![](images/stats.png)
 
 The goal of this project is to be able to see the contents of an Applied Energistics 2 (Minecraft mod) inventory through a website.
 
