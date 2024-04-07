@@ -14,4 +14,4 @@ COPY server.py /app
 COPY templates /app/templates
 
 ENTRYPOINT [ "gunicorn" ]
-CMD [ "server:app", "-b", "0.0.0.0:5000"]
+CMD [ "server:app", "-b", "0.0.0.0:5000", "--access-logfile", "-"]
