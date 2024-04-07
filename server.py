@@ -102,6 +102,9 @@ def ae2_get():
 # Used by the CC:Tweaked script
 @app.route('/ae2', methods=["POST"])
 def ae2_post():
+    if request.headers.getlist("X-Forwarded-For"): # if this is set, it comes from nginx
+        return 'This endpoint is only availabl to the loca machine itself', 403
+
     process_ae2_json(request.json)
     return '', 200
 
