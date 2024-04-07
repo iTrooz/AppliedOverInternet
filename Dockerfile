@@ -1,5 +1,5 @@
 # Inspired from https://stackoverflow.com/a/54763270
-FROM python:3.11.5-slim-bookworm
+FROM python:latest
 
 ENV POETRY_VIRTUALENVS_CREATE=false
 
