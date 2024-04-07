@@ -1,5 +1,11 @@
 -- The script goes into the CC:Tweaked computer
-print("Starting program")
+function log(msg)
+  local time = os.epoch("local") / 1000
+  local time_str = os.date("%Y-%m-%d %T", time)
+  print(time_str.." "..msg)
+end
+
+log("Starting program")
 bridge = peripheral.find("meBridge")
 
 while true do
@@ -29,7 +35,6 @@ while true do
   allData = { usage = usageData, items = itemsData }
 
   http.post("http://localhost:5000/ae2", textutils.serialiseJSON(allData), {["Content-Type"]= "application/json"})
- 
-  print("Request made. Now sleeping")
+  log("Request made. Now sleeping")
   sleep(5)
 end
