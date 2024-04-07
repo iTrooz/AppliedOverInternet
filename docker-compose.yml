@@ -20,7 +20,6 @@ services:
         ports:
             - 3000:3000
         environment:
-            - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
             - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
         volumes:
             - ./mounts/etc/grafana/:/etc/grafana
