@@ -1,4 +1,4 @@
-from influxdb_client import Point, InfluxDBClient
+from influxdb_client import Point, InfluxDBClient, WriteApi
 import traceback
 import os
 import json
@@ -21,7 +21,7 @@ def toHuman(num):
         num /= 1000.0
     return ("%.2f" % num).rstrip('0').rstrip('.') + "Y"
 
-def initDBClient():
+def initDBClient() -> InfluxDBClient:
     from dotenv import load_dotenv
     load_dotenv()
 
@@ -36,9 +36,7 @@ def initDBClient():
         raise Exception("Connection failed for unknown reason")
     return db_client
 
-def sendDBStats(db_client: InfluxDBClient, data):
-    write_api = db_client.write_api()
-
+def sendDBStats(write_api: WriteApi, data):
     write_api.write("test", "test", [
         Point("ae2_item").tag("name", item["name"]).field("amount", item["amount"])
         for item in data["items"]])
@@ -60,14 +58,16 @@ def process_ae2_json(data):
     data["items"] = items
     
     if db_client:
-        sendDBStats(db_client, data)
+        sendDBStats(db_client_write_api, data)
 
     global DATA
     DATA = data
 
 db_client = None
+db_client_write_api = None
 try:
     db_client = initDBClient()
+    db_client_write_api = db_client.write_api()
     print("DB client connnected successfully")
 except Exception as e:
     print(f"Failed to init DB client:")
