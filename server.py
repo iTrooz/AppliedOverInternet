@@ -4,6 +4,7 @@ import os
 import json
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import datetime, timezone
 
 from flask import *
 
@@ -13,6 +14,7 @@ app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60*60*24*30 # 30 days
 
 DATA = None
+LAST_UPDATE = None
 
 def toHuman(num):
     # Inspiration: https://stackoverflow.com/a/1094933
@@ -60,8 +62,9 @@ def process_ae2_json(data):
     if db_client:
         sendDBStats(db_client_write_api, data)
 
-    global DATA
+    global DATA, LAST_UPDATE
     DATA = data
+    LAST_UPDATE = datetime.now(timezone.utc)
 
 db_client = None
 db_client_write_api = None
@@ -92,7 +95,8 @@ def textures(fullname):
 @app.route('/')
 def index():
     items = DATA["items"] if DATA else None
-    return render_template("index.html", items=items)
+    last_update = LAST_UPDATE.astimezone().strftime("%Y/%m/%d %X UTC%z %Z") if LAST_UPDATE else None
+    return render_template("index.html", items=items, last_update=last_update)
 
 # For debugging purposes
 @app.route('/ae2', methods=["GET"])

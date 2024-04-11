@@ -45,6 +45,10 @@
     <body>
         <input id="search" oninput="filterItems()" />
         <a href="/stats" target="_blank">Go to statistics view</a>
+        {% if last_update %}
+            <p>Last updated at {{ last_update }}</p>
+        {% endif %}
+
         {% if items == None %}
             <p> The webserver has not received any request from ComputerCraft yet. Verify that ComputerCraft makes requests to this webserver.</p>
         {% else %}
