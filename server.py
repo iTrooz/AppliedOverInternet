@@ -3,6 +3,7 @@ import traceback
 import os
 import json
 from pathlib import Path
+from dotenv import load_dotenv
 
 from flask import *
 
@@ -22,7 +23,6 @@ def toHuman(num):
     return ("%.2f" % num).rstrip('0').rstrip('.') + "Y"
 
 def initDBClient() -> InfluxDBClient:
-    from dotenv import load_dotenv
     load_dotenv()
 
     if not os.getenv("DB_HOST"):
