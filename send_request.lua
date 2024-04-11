@@ -14,9 +14,14 @@ while true do
 
   for _, cat in pairs({ bridge.listItems(), bridge.listFluid(), bridge.listGas() }) do
     if cat ~= nil then
-      for _, item in pairs(cat) do
-        strippedItem = { name = item.name, amount = item.amount, displayName = item.displayName }
-        table.insert(itemsData, strippedItem)
+      if type(cat) == "table" then
+        for _, item in pairs(cat) do
+          strippedItem = { name = item.name, amount = item.amount, displayName = item.displayName }
+          table.insert(itemsData, strippedItem)
+        end
+      else
+        log("Error while processing AE:")
+        log(cat)
       end
     end
   end
