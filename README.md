@@ -42,5 +42,28 @@ The goal of this project is to be able to see the contents of an Applied Energis
 - Place your computer and your [ME bridge](https://advancedperipherals.madefor.cc/peripherals/me_bridge/) next to the AE2 network (the ME bridge must be connected to the AE2 network)
 - Import [the following script](./send_request.lua) in the computer as the startup.lua script (either put it through `{world}/computercraft/computer/{id}` or upload it on pastebin)
 
+# Requests graph
+```mermaid
+flowchart TD
+    subgraph Server
+        webserver[Python webserver]
+        db[InfluxDB]
+        subgraph Minecraft
+            AE
+            CC[CC:Tweaked script]
+            CC -->|Requests data| AE
+        end
+        CC -->|Sends data| webserver
+        webserver -->|Sends data| db
+
+        grafana[Grafana]
+        grafana -->|Requests data| db
+    end
+    user[User]
+    user -->|Requests inventory HTML| webserver
+    user -->|Requests stats HTML| grafana 
+```
+Legend: Arrows going from A to B (A->B) means that A **sends a request** to B. It sends nothing about which way the data transits, it could go from A to B or B to A
+
 # Why ?
 Because
