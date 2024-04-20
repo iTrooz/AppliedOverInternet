@@ -11,6 +11,7 @@ COPY poetry.lock pyproject.toml /app/
 RUN poetry install --no-interaction --no-ansi
 
 COPY server.py /app
+COPY missing.png /app
 COPY templates /app/templates
 
 ENTRYPOINT [ "gunicorn" ]
