@@ -20,8 +20,8 @@ The goal of this project is to be able to see the contents of an Applied Energis
 ### Retrieve the textures
 - Install the mod https://github.com/CyclopsMC/IconExporter (https://www.curseforge.com/minecraft/mc-mods/iconexporter) and run the command `/iconexporter export` (in singleplayer, not on a physical server) to export the icons
 - Find the output folder in your .minecraft directory, move it to the root of this cloned repository and rename it `input`
-- Run the `reorder.py` script, which will organise the textures in the `output` folder.
-- Move that `output` folder to the server (hint: compress it for faster transfer)
+- Run the `reorder.py <path_to_your_minecraft_folder>` script, which will organise the textures in the `textures` folder.
+- Move that `textures` folder to the server (hint: compress it for faster transfer)
 
 ### Setup the webserver
 - Create the .env file (see .env.example template) ans modify the passwords
