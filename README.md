@@ -24,7 +24,7 @@ The goal of this project is to be able to see the contents of an Applied Energis
 - Move that `textures` folder to the server (hint: compress it for faster transfer)
 
 ### Setup the webserver
-- Create the .env file (see .env.example template) ans modify the passwords
+- Create the .env file (see .env.example template) and modify the passwords
 - Setup the python webserver
   - (Easiest + Stats support) Either run `docker compose --profile app up`
   - (Hardest + No stats support) Or run the `server.py` script (as a background program, with say `tmux` or `screen`) with `gunicorn -b 0.0.0.0:5000 server:app` (Don't use the flask default development server, for me it caused memory leaks due to creating a thread per request for some reason)
