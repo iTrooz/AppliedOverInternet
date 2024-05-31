@@ -8,21 +8,45 @@ end
 log("Starting program")
 bridge = peripheral.find("meBridge")
 
-while true do
-  items = bridge.listItems()
-  itemsData = {}
+while true do  
+  quantities = {}
 
-  for _, cat in pairs({ bridge.listItems(), bridge.listFluid(), bridge.listGas() }) do
-    if cat ~= nil then
-      if type(cat) == "table" then
-        for _, item in pairs(cat) do
-          strippedItem = { name = item.name, amount = item.amount, displayName = item.displayName }
-          table.insert(itemsData, strippedItem)
-        end
-      else
-        log("Error while processing AE:")
-        log(cat)
+  cat = bridge.listItems()
+  if cat ~= nil then
+    if type(cat) == "table" then
+      for _, thing in pairs(cat) do
+        strippedThing = { name = thing.name, amount = thing.amount, displayName = thing.displayName, type = "item" }
+        table.insert(quantities, strippedThing)
       end
+    else
+      log("Error while processing AE:")
+      log(cat)
+    end
+  end
+
+  cat = bridge.listFluid()
+  if cat ~= nil then
+    if type(cat) == "table" then
+      for _, thing in pairs(cat) do
+        strippedThing = { name = thing.name, amount = thing.amount, displayName = thing.displayName, type = "fluid" }
+        table.insert(quantities, strippedThing)
+      end
+    else
+      log("Error while processing AE:")
+      log(cat)
+    end
+  end
+
+  cat = bridge.listGas()
+  if cat ~= nil then
+    if type(cat) == "table" then
+      for _, thing in pairs(cat) do
+        strippedThing = { name = thing.name, amount = thing.amount, displayName = thing.displayName, type = "gas" }
+        table.insert(quantities, strippedThing)
+      end
+    else
+      log("Error while processing AE:")
+      log(cat)
     end
   end
 
@@ -37,7 +61,7 @@ while true do
     } -- no gas yet ):
   }
 
-  allData = { usage = usageData, items = itemsData }
+  allData = { usage = usageData, items = quantities }
 
   http.post("http://localhost:5000/ae2", textutils.serialiseJSON(allData), {["Content-Type"]= "application/json"})
   log("Request made. Now sleeping")
