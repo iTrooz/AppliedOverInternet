@@ -5,6 +5,10 @@ function log(msg)
   print(time_str.." "..msg)
 end
 
+function round(n)
+  return math.floor(n+0.5)
+end
+
 log("Starting program")
 bridge = peripheral.find("meBridge")
 
@@ -28,7 +32,7 @@ while true do
   if cat ~= nil then
     if type(cat) == "table" then
       for _, thing in pairs(cat) do
-        strippedThing = { name = thing.name, amount = thing.amount, displayName = thing.displayName, type = "fluid" }
+        strippedThing = { name = thing.name, amount = round(thing.amount/1000), displayName = thing.displayName, type = "fluid" }
         table.insert(quantities, strippedThing)
       end
     else
@@ -41,7 +45,7 @@ while true do
   if cat ~= nil then
     if type(cat) == "table" then
       for _, thing in pairs(cat) do
-        strippedThing = { name = thing.name, amount = thing.amount, displayName = thing.displayName, type = "gas" }
+        strippedThing = { name = thing.name, amount = round(thing.amount/1000), displayName = thing.displayName, type = "gas" }
         table.insert(quantities, strippedThing)
       end
     else
